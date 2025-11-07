@@ -1,0 +1,13 @@
+C:\Bottlecapps\MAU\NCR(WSRM)\NCR(WSRM)\bin\Debug\NCR(WSRM).exe.config
+C:\Bottlecapps\MAU\NCR(WSRM)\NCR(WSRM)\bin\Debug\NCR(WSRM).exe
+C:\Bottlecapps\MAU\NCR(WSRM)\NCR(WSRM)\bin\Debug\NCR(WSRM).pdb
+C:\Bottlecapps\MAU\NCR(WSRM)\NCR(WSRM)\bin\Debug\Newtonsoft.Json.dll
+C:\Bottlecapps\MAU\NCR(WSRM)\NCR(WSRM)\bin\Debug\Newtonsoft.Json.xml
+C:\Bottlecapps\MAU\NCR(WSRM)\NCR(WSRM)\obj\Debug\NCR_WSRM_.Form1.resources
+C:\Bottlecapps\MAU\NCR(WSRM)\NCR(WSRM)\obj\Debug\NCR_WSRM_.FormSetting.resources
+C:\Bottlecapps\MAU\NCR(WSRM)\NCR(WSRM)\obj\Debug\NCR_WSRM_.Properties.Resources.resources
+C:\Bottlecapps\MAU\NCR(WSRM)\NCR(WSRM)\obj\Debug\NCR(WSRM).csproj.GenerateResource.cache
+C:\Bottlecapps\MAU\NCR(WSRM)\NCR(WSRM)\obj\Debug\NCR(WSRM).csproj.CoreCompileInputs.cache
+C:\Bottlecapps\MAU\NCR(WSRM)\NCR(WSRM)\obj\Debug\NCR(WSRM).csproj.CopyComplete
+C:\Bottlecapps\MAU\NCR(WSRM)\NCR(WSRM)\obj\Debug\NCR(WSRM).exe
+C:\Bottlecapps\MAU\NCR(WSRM)\NCR(WSRM)\obj\Debug\NCR(WSRM).pdb

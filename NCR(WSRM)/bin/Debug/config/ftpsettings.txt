@@ -1,0 +1,1 @@
+{"StoreID":"12045","StockedItems":0,"FtpServer":"54.174.152.95","FtpUserName":"BCappsAdmin","FtpPassword":"dZkZ0z1Si/F4dILx0ZB0/w==","UpFolder":"/Upload/","FtpLocation":"58","UpTime":0,"FtpTax":"0.0"}
