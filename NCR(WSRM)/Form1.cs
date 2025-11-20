@@ -108,7 +108,7 @@ namespace NCR_WSRM_
             string text4 = "SELECT DISTINCT '" + storeId + "' AS StoreId, '#'+LTRIM(REPLACE(B.BARCOD, '/', '')) AS Upc, CAST(I.QTY_ON_HND AS INT) AS Qty, '#'+LTRIM(I.ITEM_NO) AS Sku,";
             text4 += " ISNULL(I.STK_UNIT,'') AS DefaultUom,ISNULL(I.ALT_1_NUMER,0) as ALT_1_NUMER, ISNULL(I.ALT_1_UNIT,'') AS ALT_1_UNIT,ISNULL(I.ALT_3_NUMER,0) AS ALT_3_NUMER,ISNULL(I.ALT_3_UNIT,'') AS ALT_3_UNIT,";
             text4 += " REPLACE(LTRIM(RTRIM(I.DESCR)), ',', ' ') AS StoreProductName,REPLACE(LTRIM(RTRIM(I.DESCR)), ',', ' ') AS StoreDescription,";
-            //text4 = text4 + " ISNULL(I.PRC_1,0) AS Price1,ISNULL(I.ALT_1_PRC_1,0) as Price2,ISNULL(I.ALT_3_PRC_1,0) as Price3, '' AS Sprice, '' AS Start, '' AS [End], '" + ftpTax + "' AS Tax,";
+          //  text4 = text4 + " ISNULL(I.PRC_1,0) AS Price1,ISNULL(I.ALT_1_PRC_1,0) as Price2,ISNULL(I.ALT_3_PRC_1,0) as Price3, '' AS Sprice, '' AS Start, '' AS [End], '" + ftpTax + "' AS Tax,";
             text4 = text4 + " ISNULL(p.PRC_1,0) AS Price1,ISNULL(p.ALT_1_PRC_1,0) as Price2,ISNULL(p.ALT_3_PRC_1,0) as Price3, '' AS Sprice, '' AS Start, '' AS [End], '" + ftpTax + "' AS Tax,";//Changed on 10/15/2025
             text4 += " '' AS AltUpc1, '' AS AltUpc2, '' AS AltUpc3, '' AS AltUpc4, '' AS AltUpc5, ICC.DESCR as pcat, I.Subcat_Cod as pcat1, '' as pcat2, '' as region, '' as country ";
             text4 += " FROM VI_IM_ITEM_WITH_INV I ";
@@ -116,8 +116,10 @@ namespace NCR_WSRM_
             text4 += " LEFT JOIN IM_BARCOD B ON B.ITEM_NO = I.ITEM_NO ";
             text4 += " LEFT JOIN IM_CATEG_COD ICC ON I.CATEG_COD = ICC.CATEG_COD ";
             text4 += " WHERE B.BARCOD != '' AND B.BARCOD IS NOT NULL ";
-            //text4 = text4 + " AND I.Loc_ID = '" + fTPLocation + "'" + text2 + text;
-            text4 = text4 + " AND p.STK_LOC_ID = '" + fTPLocation + "'"+ " AND I.Loc_ID = '" + fTPLocation + "'" + text2 + text;//Changed on 10/15/2025  
+          //  text4 = text4 + " AND I.Loc_ID = '" + fTPLocation + "'" + text2 + text;
+            text4 = text4 + " AND p.STK_LOC_ID = '" + fTPLocation + "'"+ " AND I.Loc_ID = '" + fTPLocation + "'" + text2 + text;//Changed on 10/15/2025   
+
+            string temp = text4 ;
             SqlConnection sqlConnection = new SqlConnection(setting.ConnectionString);
             SqlCommand sqlCommand = new SqlCommand(text4, sqlConnection);
             sqlConnection.Open();
