@@ -108,7 +108,7 @@ namespace NCR_WSRM_
             string text4 = "SELECT DISTINCT '" + storeId + "' AS StoreId, '#'+LTRIM(REPLACE(B.BARCOD, '/', '')) AS Upc, CAST(I.QTY_ON_HND AS INT) AS Qty, '#'+LTRIM(I.ITEM_NO) AS Sku,";
             text4 += " ISNULL(I.STK_UNIT,'') AS DefaultUom,ISNULL(I.ALT_1_NUMER,0) as ALT_1_NUMER, ISNULL(I.ALT_1_UNIT,'') AS ALT_1_UNIT,ISNULL(I.ALT_3_NUMER,0) AS ALT_3_NUMER,ISNULL(I.ALT_3_UNIT,'') AS ALT_3_UNIT,";
             text4 += " REPLACE(LTRIM(RTRIM(I.DESCR)), ',', ' ') AS StoreProductName,REPLACE(LTRIM(RTRIM(I.DESCR)), ',', ' ') AS StoreDescription,";
-            //text4 = text4 + " ISNULL(I.PRC_1,0) AS Price1,ISNULL(I.ALT_1_PRC_1,0) as Price2,ISNULL(I.ALT_3_PRC_1,0) as Price3, '' AS Sprice, '' AS Start, '' AS [End], '" + ftpTax + "' AS Tax,";
+           // text4 = text4 + " ISNULL(I.PRC_1,0) AS Price1,ISNULL(I.ALT_1_PRC_1,0) as Price2,ISNULL(I.ALT_3_PRC_1,0) as Price3, '' AS Sprice, '' AS Start, '' AS [End], '" + ftpTax + "' AS Tax,";
             text4 = text4 + " ISNULL(p.PRC_1,0) AS Price1,ISNULL(p.ALT_1_PRC_1,0) as Price2,ISNULL(p.ALT_3_PRC_1,0) as Price3, '' AS Sprice, '' AS Start, '' AS [End], '" + ftpTax + "' AS Tax,";//Changed on 10/15/2025
             text4 += " '' AS AltUpc1, '' AS AltUpc2, '' AS AltUpc3, '' AS AltUpc4, '' AS AltUpc5, ICC.DESCR as pcat, I.Subcat_Cod as pcat1, '' as pcat2, '' as region, '' as country ";
             text4 += " FROM VI_IM_ITEM_WITH_INV I ";
@@ -333,9 +333,9 @@ namespace NCR_WSRM_
             //query += " LEFT JOIN IM_CATEG_COD ICC ON I.CATEG_COD = ICC.CATEG_COD ";
             //query += " WHERE B.BARCOD != '' AND B.BARCOD IS NOT NULL ";
             //query += " AND I.Loc_ID = '" + fTPLocationNCR + "'" + text3NCR + text2NCR;
-            //#endregion
+            #endregion
 
-            //#region Yankee's Stores
+            #region Yankee's Stores
             ////string query = "SELECT DISTINCT '" + storeId + "' AS StoreId, '#'+LTRIM(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(UPC, '/', ''), ',', ''), '=', ''), '.', ''), '`', '')) AS Upc , CAST(QTY AS INT) AS Qty, '#'+LTRIM(ITEM_NO) AS Sku, ";
             ////query += " ISNULL(UNIT,'') AS pack, ISNULL(UNIT,'') AS uom, REPLACE(LTRIM(RTRIM(NAME)), ',', ' ') AS StoreProductName, REPLACE(LTRIM(RTRIM(NAME)), ',', ' ') AS StoreDescription, ";
             ////query += " ISNULL(PRICE,0) AS Price, 0 AS sprice, '' as startdate, '' as enddate, '" + ftpTax + "' AS Tax,  ";
