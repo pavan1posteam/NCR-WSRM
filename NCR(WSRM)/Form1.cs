@@ -117,7 +117,7 @@ namespace NCR_WSRM_
             text4 += " LEFT JOIN IM_CATEG_COD ICC ON I.CATEG_COD = ICC.CATEG_COD ";
             text4 += " WHERE B.BARCOD != '' AND B.BARCOD IS NOT NULL ";
             //text4 = text4 + " AND I.Loc_ID = '" + fTPLocation + "'" + text2 + text;
-            text4 = text4 + " AND p.STK_LOC_ID = '" + fTPLocation + "'"+ " AND I.Loc_ID = '" + fTPLocation + "'" + text2 + text;//Changed on 10/15/2025
+            text4 = text4 + " AND p.STK_LOC_ID = '" + fTPLocation + "'" + " AND I.Loc_ID = '" + fTPLocation + "'" + text2;// + text;//Changed on 10/15/2025
             SqlConnection sqlConnection = new SqlConnection(setting.ConnectionString);
             SqlCommand sqlCommand = new SqlCommand(text4, sqlConnection);
             sqlConnection.Open();
@@ -261,6 +261,7 @@ namespace NCR_WSRM_
                     Console.WriteLine(ex.Message);
                 }
             }
+            
             List<ProductModel> productList = (from p in list
                                               group p by new { p.sku, p.Price } into @group
                                               select @group.First()).ToList();
