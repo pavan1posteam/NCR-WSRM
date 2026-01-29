@@ -70,6 +70,7 @@ namespace NCR_WSRM_
         }
         private void Uploading()
         {
+            
             #region WSRM Stores
             //TimeElapsed = ClsSettings.UpTime * 60;
             showstatus("Connecting to Database");
@@ -105,19 +106,36 @@ namespace NCR_WSRM_
             string storeId = setting.StoreId;
             string fTPLocation = setting.FTPLocation;
             string ftpTax = setting.FtpTax;
-            string text4 = "SELECT DISTINCT '" + storeId + "' AS StoreId, '#'+LTRIM(REPLACE(B.BARCOD, '/', '')) AS Upc, CAST(I.QTY_ON_HND AS INT) AS Qty, '#'+LTRIM(I.ITEM_NO) AS Sku,";
-            text4 += " ISNULL(I.STK_UNIT,'') AS DefaultUom,ISNULL(I.ALT_1_NUMER,0) as ALT_1_NUMER, ISNULL(I.ALT_1_UNIT,'') AS ALT_1_UNIT,ISNULL(I.ALT_3_NUMER,0) AS ALT_3_NUMER,ISNULL(I.ALT_3_UNIT,'') AS ALT_3_UNIT,";
-            text4 += " REPLACE(LTRIM(RTRIM(I.DESCR)), ',', ' ') AS StoreProductName,REPLACE(LTRIM(RTRIM(I.DESCR)), ',', ' ') AS StoreDescription,";
-           // text4 = text4 + " ISNULL(I.PRC_1,0) AS Price1,ISNULL(I.ALT_1_PRC_1,0) as Price2,ISNULL(I.ALT_3_PRC_1,0) as Price3, '' AS Sprice, '' AS Start, '' AS [End], '" + ftpTax + "' AS Tax,";
-            text4 = text4 + " ISNULL(p.PRC_1,0) AS Price1,ISNULL(p.ALT_1_PRC_1,0) as Price2,ISNULL(p.ALT_3_PRC_1,0) as Price3, '' AS Sprice, '' AS Start, '' AS [End], '" + ftpTax + "' AS Tax,";//Changed on 10/15/2025
-            text4 += " '' AS AltUpc1, '' AS AltUpc2, '' AS AltUpc3, '' AS AltUpc4, '' AS AltUpc5, ICC.DESCR as pcat, I.Subcat_Cod as pcat1, '' as pcat2, '' as region, '' as country ";
-            text4 += " FROM VI_IM_ITEM_WITH_INV I ";
-            text4 += " LEFT JOIN VI_IM_CELL_PRC_1 p on p.ITEM_NO = I.ITEM_NO ";//Added on 10/15/2025
-            text4 += " LEFT JOIN IM_BARCOD B ON B.ITEM_NO = I.ITEM_NO ";
-            text4 += " LEFT JOIN IM_CATEG_COD ICC ON I.CATEG_COD = ICC.CATEG_COD ";
-            text4 += " WHERE B.BARCOD != '' AND B.BARCOD IS NOT NULL ";
-            //text4 = text4 + " AND I.Loc_ID = '" + fTPLocation + "'" + text2 + text;
-            text4 = text4 + " AND p.STK_LOC_ID = '" + fTPLocation + "'" + " AND I.Loc_ID = '" + fTPLocation + "'" + text2;// + text;//Changed on 10/15/2025
+            #region Previous NCR WSRM query
+            // string text4 = "SELECT DISTINCT '" + storeId + "' AS StoreId, '#'+LTRIM(REPLACE(B.BARCOD, '/', '')) AS Upc, CAST(I.QTY_ON_HND AS INT) AS Qty, '#'+LTRIM(I.ITEM_NO) AS Sku,";
+            // text4 += " ISNULL(I.STK_UNIT,'') AS DefaultUom,ISNULL(I.ALT_1_NUMER,0) as ALT_1_NUMER, ISNULL(I.ALT_1_UNIT,'') AS ALT_1_UNIT,ISNULL(I.ALT_3_NUMER,0) AS ALT_3_NUMER,ISNULL(I.ALT_3_UNIT,'') AS ALT_3_UNIT,";
+            // text4 += " REPLACE(LTRIM(RTRIM(I.DESCR)), ',', ' ') AS StoreProductName,REPLACE(LTRIM(RTRIM(I.DESCR)), ',', ' ') AS StoreDescription,";
+            //// text4 = text4 + " ISNULL(I.PRC_1,0) AS Price1,ISNULL(I.ALT_1_PRC_1,0) as Price2,ISNULL(I.ALT_3_PRC_1,0) as Price3, '' AS Sprice, '' AS Start, '' AS [End], '" + ftpTax + "' AS Tax,";
+            // text4 = text4 + " ISNULL(p.PRC_1,0) AS Price1,ISNULL(p.ALT_1_PRC_1,0) as Price2,ISNULL(p.ALT_3_PRC_1,0) as Price3, '' AS Sprice, '' AS Start, '' AS [End], '" + ftpTax + "' AS Tax,";//Changed on 10/15/2025
+            // text4 += " '' AS AltUpc1, '' AS AltUpc2, '' AS AltUpc3, '' AS AltUpc4, '' AS AltUpc5, ICC.DESCR as pcat, I.Subcat_Cod as pcat1, '' as pcat2, '' as region, '' as country ";
+            // text4 += " FROM VI_IM_ITEM_WITH_INV I ";
+            // text4 += " LEFT JOIN VI_IM_CELL_PRC_1 p on p.ITEM_NO = I.ITEM_NO ";//Added on 10/15/2025
+            // text4 += " LEFT JOIN IM_BARCOD B ON B.ITEM_NO = I.ITEM_NO ";
+            // text4 += " LEFT JOIN IM_CATEG_COD ICC ON I.CATEG_COD = ICC.CATEG_COD ";
+            // text4 += " WHERE B.BARCOD != '' AND B.BARCOD IS NOT NULL ";
+            // //text4 = text4 + " AND I.Loc_ID = '" + fTPLocation + "'" + text2 + text;
+            // text4 = text4 + " AND p.STK_LOC_ID = '" + fTPLocation + "'" + " AND I.Loc_ID = '" + fTPLocation + "'" + text2;// + text;//Changed on 10/15/2025
+            #endregion
+
+            #region Updated NCR WSRM Query on 25/01/2026
+            string text4 ="SELECT DISTINCT '" + storeId + "' AS StoreId, " +"'#'+LTRIM(REPLACE(B.BARCOD, '/', '')) AS Upc, " +"CAST(I.QTY_ON_HND AS INT) AS Qty, " +"'#'+LTRIM(I.ITEM_NO) AS Sku, " +"I.PREF_UNIT_NUMER AS PackSize, " +"I.PREF_UNIT_NAM AS UOM, " +"I.PREF_UNIT_PRC_1 AS Price, " +"I.CATEG_COD, " +"I.MIX_MATCH_COD, " +"I.IS_DISCNTBL, " +
+"REPLACE(LTRIM(RTRIM(I.DESCR)), ',', ' ') AS StoreProductName, " +
+"REPLACE(LTRIM(RTRIM(I.DESCR)), ',', ' ') AS StoreDescription, " +
+"'" + ftpTax + "' AS Tax, " +
+"ICC.DESCR AS pcat, " +
+"ICC.DESCR_UPR AS pcat1, '' as pcat2, '' as region, '' as country " +
+
+"FROM VI_IM_ITEM_WITH_INV I " +
+"LEFT JOIN IM_BARCOD B ON B.ITEM_NO = I.ITEM_NO " +
+"LEFT JOIN IM_CATEG_COD ICC ON I.CATEG_COD = ICC.CATEG_COD " +
+"WHERE B.BARCOD IS NOT NULL AND B.BARCOD <> '' " +
+"AND I.Loc_ID = '" + fTPLocation + "' " + text2;
+            #endregion
             SqlConnection sqlConnection = new SqlConnection(setting.ConnectionString);
             SqlCommand sqlCommand = new SqlCommand(text4, sqlConnection);
             sqlConnection.Open();
@@ -130,144 +148,244 @@ namespace NCR_WSRM_
             DataTable dataTable3 = new DataTable();
             List<ProductModel> list = new List<ProductModel>();
             List<Fullname> list2 = new List<Fullname>();
+            #region previous NCR WSRM foreach loop
+            //foreach (DataRow row in dataTable.Rows)
+            //{
+            //    ProductModel productModel = new ProductModel();
+            //    Fullname fullname = new Fullname();
+            //    List<int> list3 = new List<int>();
+            //    List<string> list4 = new List<string>();
+            //    List<decimal> list5 = new List<decimal>();
+            //    try
+            //    {
+            //        int storeID = Convert.ToInt32(row["StoreId"]);
+            //        string upc = row["Upc"].ToString();
+            //        string sku = row["Sku"].ToString();
+            //        int num = Convert.ToInt32(row["Qty"]);
+            //        string text5 = row["Storeproductname"].ToString();
+            //        string text6 = row["Storeproductname"].ToString();
+            //        decimal num2 = Convert.ToDecimal(row["Price1"]);
+            //        decimal num3 = Convert.ToDecimal(row["Price2"]);
+            //        decimal num4 = Convert.ToDecimal(row["Price3"]);
+            //        int num5 = Convert.ToInt32(row["ALT_1_NUMER"]);
+            //        int num6 = Convert.ToInt32(row["ALT_3_NUMER"]);
+            //        string text7 = row["ALT_1_UNIT"].ToString();
+            //        string text8 = row["ALT_3_UNIT"].ToString();
+            //        string text9 = row["DefaultUom"].ToString();
+            //        string value2 = row["Tax"].ToString();
+            //        string pcat = row["pcat"].ToString();
+            //        string pcat2 = row["pcat1"].ToString();
+            //        if (num2 != 0m && num3 != 0m && num4 != 0m)
+            //        {
+            //            list5.Add(Convert.ToDecimal(row["Price2"]));
+            //            list5.Add(Convert.ToDecimal(row["Price3"]));
+            //            if (num5 != 0)
+            //            {
+            //                list3.Add(Convert.ToInt32(num5));
+            //            }
+            //            if (num6 != 0)
+            //            {
+            //                list3.Add(Convert.ToInt32(num6));
+            //            }
+            //            if (text7 != "")
+            //            {
+            //                list4.Add(text7.ToString());
+            //            }
+            //            if (text8 != "")
+            //            {
+            //                list4.Add(text8.ToString());
+            //            }
+            //        }
+            //        if (num2 != 0m && num3 == 0m && num4 != 0m)
+            //        {
+            //            list5.Add(Convert.ToDecimal(row["Price3"]));
+            //            if (num6 != 0)
+            //            {
+            //                list3.Add(Convert.ToInt32(num6));
+            //            }
+            //            if (text8 != "")
+            //            {
+            //                list4.Add(text8.ToString());
+            //            }
+            //        }
+            //        if (num2 != 0m && num3 != 0m && num4 == 0m)
+            //        {
+            //            list5.Add(Convert.ToDecimal(row["Price2"]));
+            //            if (num5 != 0)
+            //            {
+            //                list3.Add(Convert.ToInt32(num5));
+            //            }
+            //            if (text7 != "")
+            //            {
+            //                list4.Add(text7.ToString());
+            //            }
+            //        }
+            //        if (num2 != 0m && num3 == 0m && num4 == 0m)
+            //        {
+            //            list5.Add(Convert.ToDecimal(row["Price1"]));
+            //            list3.Add(1);
+            //            if (text9 != "")
+            //            {
+            //                list4.Add(text9.ToString());
+            //            }
+            //        }
+            //        for (int num7 = 0; num7 < list5.Count; num7++)
+            //        {
+            //            int num8 = Convert.ToInt32(num / list3[num7]);
+            //            ProductModel productModel2 = new ProductModel
+            //            {
+            //                StoreID = storeID,
+            //                upc = upc,
+            //                sku = sku,
+            //                pack = ((num7 >= list3.Count) ? 1 : list3[num7]),
+            //                uom = ((num7 < list4.Count) ? list4[num7] : text9),
+            //                Qty = num8,
+            //                StoreProductName = text5,
+            //                StoreDescription = text5,
+            //                Price = list5[num7],
+            //                sprice = 0m,
+            //                Start = "",
+            //                End = "",
+            //                Tax = Convert.ToDecimal(value2),
+            //                altupc1 = "",
+            //                altupc2 = "",
+            //                altupc3 = "",
+            //                altupc4 = "",
+            //                altupc5 = ""
+            //            };
+            //            Fullname item = new Fullname
+            //            {
+            //                pname = text5,
+            //                pdesc = text5,
+            //                upc = upc,
+            //                sku = sku,
+            //                Price = productModel2.Price,
+            //                uom = productModel2.uom,
+            //                pack = productModel2.pack,
+            //                pcat = pcat,
+            //                pcat1 = pcat2,
+            //                pcat2 = "",
+            //                country = "",
+            //                region = ""
+            //            };
+            //            if (productModel2.Price > 0m && productModel2.uom != "EACH-EX" && productModel2.uom != "4-6 PACK-EX" && productModel2.uom != "2-12 PACK-EX")
+            //            {
+            //                list.Add(productModel2);
+            //                list2.Add(item);
+            //            }
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Console.WriteLine(ex.Message);
+            //    }
+            //}
+            #endregion
+            #region Updated NCR WSRM foreach loop on 25/01/2026
             foreach (DataRow row in dataTable.Rows)
             {
                 ProductModel productModel = new ProductModel();
                 Fullname fullname = new Fullname();
-                List<int> list3 = new List<int>();
-                List<string> list4 = new List<string>();
-                List<decimal> list5 = new List<decimal>();
+
                 try
                 {
                     int storeID = Convert.ToInt32(row["StoreId"]);
                     string upc = row["Upc"].ToString();
                     string sku = row["Sku"].ToString();
-                    int num = Convert.ToInt32(row["Qty"]);
-                    string text5 = row["Storeproductname"].ToString();
-                    string text6 = row["Storeproductname"].ToString();
-                    decimal num2 = Convert.ToDecimal(row["Price1"]);
-                    decimal num3 = Convert.ToDecimal(row["Price2"]);
-                    decimal num4 = Convert.ToDecimal(row["Price3"]);
-                    int num5 = Convert.ToInt32(row["ALT_1_NUMER"]);
-                    int num6 = Convert.ToInt32(row["ALT_3_NUMER"]);
-                    string text7 = row["ALT_1_UNIT"].ToString();
-                    string text8 = row["ALT_3_UNIT"].ToString();
-                    string text9 = row["DefaultUom"].ToString();
-                    string value2 = row["Tax"].ToString();
+                    int qty = Convert.ToInt32(row["Qty"]);
+
+                    int pack = row["PackSize"] == DBNull.Value ? 1 : Convert.ToInt32(row["PackSize"]);
+                    string uom = row["UOM"]?.ToString();
+                    decimal price = row["Price"] == DBNull.Value ? 0m : Convert.ToDecimal(row["Price"]);
+
+                    int categCod = row["CATEG_COD"] == DBNull.Value ? 0 : Convert.ToInt32(row["CATEG_COD"]);
+                    string mixMatch = row["MIX_MATCH_COD"] == DBNull.Value ? "": row["MIX_MATCH_COD"].ToString().Trim().ToUpper();
+
+
+                    string isDbDiscountableRaw = row["IS_DISCNTBL"] == DBNull.Value ? "" : row["IS_DISCNTBL"].ToString().Trim().ToUpper();
+
+                    int isDbDiscountable = 0;
+
+                    if (
+                        isDbDiscountableRaw == "1" ||
+                        isDbDiscountableRaw == "Y" ||
+                        isDbDiscountableRaw == "T" ||
+                        isDbDiscountableRaw == "TRUE"
+                    )
+                    {
+                        isDbDiscountable = 1;
+                    }
+
+                    string name = row["StoreProductName"].ToString();
+                    decimal tax = Convert.ToDecimal(row["Tax"]);
                     string pcat = row["pcat"].ToString();
-                    string pcat2 = row["pcat1"].ToString();
-                    if (num2 != 0m && num3 != 0m && num4 != 0m)
+                    string pcat1 = row["pcat1"].ToString();
+                    int finalDiscountable = 0;
+
+                    if (
+                        (categCod == 150 || categCod == 152 || categCod == 154) &&
+                        mixMatch == "W01" &&
+                        isDbDiscountable == 1
+                    )
                     {
-                        list5.Add(Convert.ToDecimal(row["Price2"]));
-                        list5.Add(Convert.ToDecimal(row["Price3"]));
-                        if (num5 != 0)
-                        {
-                            list3.Add(Convert.ToInt32(num5));
-                        }
-                        if (num6 != 0)
-                        {
-                            list3.Add(Convert.ToInt32(num6));
-                        }
-                        if (text7 != "")
-                        {
-                            list4.Add(text7.ToString());
-                        }
-                        if (text8 != "")
-                        {
-                            list4.Add(text8.ToString());
-                        }
+                        finalDiscountable = 1;
                     }
-                    if (num2 != 0m && num3 == 0m && num4 != 0m)
+                    if (price > 0)
                     {
-                        list5.Add(Convert.ToDecimal(row["Price3"]));
-                        if (num6 != 0)
-                        {
-                            list3.Add(Convert.ToInt32(num6));
-                        }
-                        if (text8 != "")
-                        {
-                            list4.Add(text8.ToString());
-                        }
-                    }
-                    if (num2 != 0m && num3 != 0m && num4 == 0m)
-                    {
-                        list5.Add(Convert.ToDecimal(row["Price2"]));
-                        if (num5 != 0)
-                        {
-                            list3.Add(Convert.ToInt32(num5));
-                        }
-                        if (text7 != "")
-                        {
-                            list4.Add(text7.ToString());
-                        }
-                    }
-                    if (num2 != 0m && num3 == 0m && num4 == 0m)
-                    {
-                        list5.Add(Convert.ToDecimal(row["Price1"]));
-                        list3.Add(1);
-                        if (text9 != "")
-                        {
-                            list4.Add(text9.ToString());
-                        }
-                    }
-                    for (int num7 = 0; num7 < list5.Count; num7++)
-                    {
-                        int num8 = Convert.ToInt32(num / list3[num7]);
-                        ProductModel productModel2 = new ProductModel
+                        ProductModel product = new ProductModel
                         {
                             StoreID = storeID,
                             upc = upc,
                             sku = sku,
-                            pack = ((num7 >= list3.Count) ? 1 : list3[num7]),
-                            uom = ((num7 < list4.Count) ? list4[num7] : text9),
-                            Qty = num8,
-                            StoreProductName = text5,
-                            StoreDescription = text5,
-                            Price = list5[num7],
-                            sprice = 0m,
-                            Start = "",
-                            End = "",
-                            Tax = Convert.ToDecimal(value2),
-                            altupc1 = "",
-                            altupc2 = "",
-                            altupc3 = "",
-                            altupc4 = "",
-                            altupc5 = ""
+                            Qty = qty,
+                            pack = pack,
+                            uom = uom,
+                            StoreProductName = name,
+                            StoreDescription = name,
+                            Price = price,
+                            Discountable = finalDiscountable,
+                            Tax = tax
                         };
+
                         Fullname item = new Fullname
                         {
-                            pname = text5,
-                            pdesc = text5,
+                            pname = name,
+                            pdesc = name,
                             upc = upc,
                             sku = sku,
-                            Price = productModel2.Price,
-                            uom = productModel2.uom,
-                            pack = productModel2.pack,
+                            Price = price,
+                            uom = uom,
+                            pack = pack,
                             pcat = pcat,
-                            pcat1 = pcat2,
+                            pcat1 = pcat1,
                             pcat2 = "",
                             country = "",
                             region = ""
                         };
-                        if (productModel2.Price > 0m && productModel2.uom != "EACH-EX" && productModel2.uom != "4-6 PACK-EX" && productModel2.uom != "2-12 PACK-EX")
-                        {
-                            list.Add(productModel2);
-                            list2.Add(item);
-                        }
+
+                        list.Add(product);
+                        list2.Add(item);
                     }
+
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
             }
-            
-            List<ProductModel> productList = (from p in list
-                                              group p by new { p.sku, p.Price } into @group
-                                              select @group.First()).ToList();
-            List<Fullname> productList2 = (from p in list2
-                                           group p by new { p.sku, p.Price } into @group
-                                           select @group.First()).ToList();
+            #endregion
+            #region old logic 
+            //List<ProductModel> productList = (from p in list
+            //                                  group p by new { p.sku, p.Price } into @group
+            //                                  select @group.First()).ToList();
+            //List<Fullname> productList2 = (from p in list2
+            //                               group p by new { p.sku, p.Price } into @group
+            //                               select @group.First()).ToList();
+            #endregion
+            #region new include 
+            List<ProductModel> productList = list;
+            List<Fullname> productList2 = list2;
+            #endregion
             showstatus("Generating csv file");
             string text10 = GenerateCSV.GenerateCSVproductt(productList);
             string text11 = GenerateCSV.GenerateCSVfull(productList2);
@@ -676,6 +794,11 @@ namespace NCR_WSRM_
                 return regexMatch.ToString();
             }
             return "";
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

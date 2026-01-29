@@ -26,5 +26,10 @@ namespace NCR_WSRM_.Model
         public string altupc3 { get; set; }
         public string altupc4 { get; set; }
         public string altupc5 { get; set; }
+
+        #region new include 
+        public int Discountable { get; set; }
+
+        #endregion
     }
 }
